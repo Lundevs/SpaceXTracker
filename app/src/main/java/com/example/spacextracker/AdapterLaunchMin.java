@@ -50,7 +50,7 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.launchDate.setText(mDataset.get(position).getLaunch_date_utc().toString());
-        holder.rocketName.setText(mDataset.get(position).getRocket_name());
+        //holder.rocketName.setText(mDataset.get(position).getRocket_name());
         holder.missionName.setText(mDataset.get(position).getMission_name());
 
     }
