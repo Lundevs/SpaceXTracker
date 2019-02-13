@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.example.spacextracker.Model.Launches;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.launchPastRecicleView);
 
         SpaceXAPIInterface restApi = RetroFit.getInstance();
-        Call<List<Launches>> call = restApi.getAllLaunchs();
+        Call<List<Launches>> call = restApi.getAllLaunches();
         call.enqueue(new Callback<List<Launches>>() {
             @Override
             public void onResponse(Call<List<Launches>> call, Response<List<Launches>> response) {

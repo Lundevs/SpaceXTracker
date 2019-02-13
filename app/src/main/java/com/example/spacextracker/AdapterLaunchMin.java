@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.spacextracker.Model.Launches;
+
 import java.util.List;
 
 
@@ -19,12 +21,12 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
         // each data item is just a string in this case
         public TextView rocketName;
         public TextView launchDate;
-        public TextView paylodType;
+        public TextView missionName;
         public MyViewHolder(View v) {
             super(v);
             launchDate = v.findViewById(R.id.launchDate);
             rocketName = v.findViewById(R.id.launchRocket);
-            paylodType = v.findViewById(R.id.payloadType);
+            missionName = v.findViewById(R.id.missionName);
         }
     }
 
@@ -48,6 +50,8 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.launchDate.setText(mDataset.get(position).getLaunch_date_utc().toString());
+        holder.rocketName.setText(mDataset.get(position).getRocket_name());
+        holder.missionName.setText(mDataset.get(position).getMission_name());
 
     }
 

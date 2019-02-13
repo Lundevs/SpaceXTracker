@@ -8,7 +8,7 @@
         android:id="@+id/launchDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/missionName"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
@@ -20,7 +20,7 @@
         app:layout_constraintLeft_toRightOf="@id/launchDate"/>
 
     <TextView
-        android:id="@+id/payloadType"
+        android:id="@+id/missionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +29,7 @@
         android:id="@+id/launchRocket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/payloadType"
-        app:layout_constraintLeft_toRightOf="@id/launchImg"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/missionName"/>
 
 </android.support.constraint.ConstraintLayout>
