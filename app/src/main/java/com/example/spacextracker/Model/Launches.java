@@ -8,6 +8,13 @@ public class Launches {
     private int flight_number;
     private String mission_name;
     private Rocket rocket;
+    private Telem telemetry;
+    private LaunchSite launch_site;
+    private boolean launch_success;
+    private Links links;
+    private String details;
+
+
 
     public String getMission_name(){
         return mission_name;
