@@ -14,7 +14,7 @@ public class Launches {
     private Links links;
     private String details;
 
-
+    public String getRocket_name(){return rocket.getRocket_name();}
 
     public String getMission_name(){
         return mission_name;
@@ -28,5 +28,7 @@ public class Launches {
         return flight_number;
     }
 
+    public String getPatchURL(){ return links.getMission_patch(); }
 
+    public String getSmallPatchURL(){return links.getMission_patch_small();}
 }

@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.spacextracker.Model.Launches;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,11 +24,13 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
         public TextView rocketName;
         public TextView launchDate;
         public TextView missionName;
+        public ImageView missionPatch;
         public MyViewHolder(View v) {
             super(v);
             launchDate = v.findViewById(R.id.launchDate);
             rocketName = v.findViewById(R.id.launchRocket);
             missionName = v.findViewById(R.id.missionName);
+            missionPatch = v.findViewById(R.id.launchImg);
         }
     }
 
@@ -50,9 +54,14 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.launchDate.setText(mDataset.get(position).getLaunch_date_utc().toString());
-        //holder.rocketName.setText(mDataset.get(position).getRocket_name());
+        holder.rocketName.setText(mDataset.get(position).getRocket_name());
         holder.missionName.setText(mDataset.get(position).getMission_name());
 
+        Picasso
+                .get()
+                .load(mDataset.get(position).getSmallPatchURL())
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(holder.missionPatch);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

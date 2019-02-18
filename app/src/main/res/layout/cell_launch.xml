@@ -2,34 +2,42 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:layout_marginLeft="10dp"
         android:id="@+id/launchDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/missionName"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/launchRocket"
+        app:layout_constraintLeft_toRightOf="@+id/launchImg"
         />
 
     <ImageView
+        android:layout_marginLeft="10dp"
         android:id="@+id/launchImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/launchDate"/>
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/missionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/launchImg"/>
+
     <TextView
+        android:layout_marginLeft="10dp"
         android:id="@+id/launchRocket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/missionName"/>
+        app:layout_constraintTop_toBottomOf="@+id/missionName"
+        app:layout_constraintLeft_toRightOf="@id/launchImg"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -6,4 +6,24 @@ class Core {
     public boolean reused;
     public boolean landing_intent;
     public boolean isLanding_success;
+
+    public String getFlight() {
+        return flight;
+    }
+
+    public int getBlock() {
+        return block;
+    }
+
+    public boolean isReused() {
+        return reused;
+    }
+
+    public boolean isLanding_intent() {
+        return landing_intent;
+    }
+
+    public boolean isLanding_success() {
+        return isLanding_success;
+    }
 }
