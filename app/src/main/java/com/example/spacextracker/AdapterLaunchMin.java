@@ -4,17 +4,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.spacextracker.Model.Launches;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.util.List;
 
 
 public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyViewHolder> {
+
     private List<Launches> mDataset;
+    private final View.OnClickListener listener;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -35,8 +39,9 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterLaunchMin(List<Launches> myDataset) {
-        mDataset = myDataset;
+    public AdapterLaunchMin(List<Launches> myDataset, View.OnClickListener listener) {
+        this.mDataset = myDataset;
+        this.listener = listener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -44,6 +49,7 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
     public AdapterLaunchMin.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_launch, parent, false);
+        v.setOnClickListener(this.listener);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -53,7 +59,7 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.launchDate.setText(mDataset.get(position).getLaunch_date_utc().toString());
+        holder.launchDate.setText(DateFormat.getDateInstance(DateFormat.LONG).format(mDataset.get(position).getLaunch_date_utc()));
         holder.rocketName.setText(mDataset.get(position).getRocket_name());
         holder.missionName.setText(mDataset.get(position).getMission_name());
 

@@ -1,10 +1,13 @@
 package com.example.spacextracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.example.spacextracker.Model.Launches;
 
@@ -14,11 +17,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.support.v4.content.ContextCompat.startActivity;
+
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Launches> launchList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,18 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new AdapterLaunchMin(launchList);
+        mAdapter = new AdapterLaunchMin(launchList, new ListenerLaunchesList());
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public class ListenerLaunchesList implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MainActivity.this, DetailedLaunchActivity.class);
+            int itemPosition = mRecyclerView.getChildLayoutPosition(v);
+            intent.putExtra("flightNumber", itemPosition+1);
+            startActivity(intent);
+        }
     }
 }
