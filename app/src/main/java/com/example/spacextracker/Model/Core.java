@@ -1,11 +1,11 @@
 package com.example.spacextracker.Model;
 
 class Core {
-    public String flight;
-    public int block;
-    public boolean reused;
-    public boolean landing_intent;
-    public boolean isLanding_success;
+    private String flight;
+    private int block;
+    private boolean reused;
+    private boolean landing_intent;
+    private boolean isLanding_success;
 
     public String getFlight() {
         return flight;

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.example.spacextracker.Model.Launches;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -67,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent = new Intent(MainActivity.this, DetailedLaunchActivity.class);
             int itemPosition = mRecyclerView.getChildLayoutPosition(v);
+            Gson gson = new Gson();
             intent.putExtra("flightNumber", itemPosition+1);
+            intent.putExtra("jsonData",gson.toJson(launchList.get(itemPosition)));
             startActivity(intent);
         }
     }
