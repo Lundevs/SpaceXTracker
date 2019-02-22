@@ -1,4 +1,4 @@
-package com.example.spacextracker;
+package com.example.spacextracker.View;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.spacextracker.Model.Launches;
+import com.example.spacextracker.R;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 

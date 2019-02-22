@@ -1,31 +1,25 @@
-package com.example.spacextracker;
+package com.example.spacextracker.View;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 
+import com.example.spacextracker.Controller.MainController;
 import com.example.spacextracker.Model.Launches;
+import com.example.spacextracker.R;
 import com.google.gson.Gson;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Launches> launchList;
 
+    private MainController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,26 +27,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.launchPastRecicleView);
 
-        SpaceXAPIInterface restApi = RetroFit.getInstance();
-        Call<List<Launches>> call = restApi.getAllLaunches();
-        call.enqueue(new Callback<List<Launches>>() {
-            @Override
-            public void onResponse(Call<List<Launches>> call, Response<List<Launches>> response) {
-                launchList = response.body();
-                showList(launchList);
-            }
-
-            @Override
-            public void onFailure(Call<List<Launches>> call, Throwable t) {
-                Log.d("ERROR", "Api Error");
-            }
-        });
-
-
-
+        controller = new MainController(this);
+        controller.onCreate();
     }
 
-    private void showList(List<Launches> launchList) {
+    public void showList(List<Launches> launchList) {
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
@@ -70,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             int itemPosition = mRecyclerView.getChildLayoutPosition(v);
             Gson gson = new Gson();
             intent.putExtra("flightNumber", itemPosition+1);
-            intent.putExtra("jsonData",gson.toJson(launchList.get(itemPosition)));
+            intent.putExtra("jsonData",gson.toJson(controller.getListLaunches().get(itemPosition)));
             startActivity(intent);
         }
     }

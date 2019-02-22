@@ -1,9 +1,8 @@
-package com.example.spacextracker;
+package com.example.spacextracker.Controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

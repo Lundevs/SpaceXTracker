@@ -1,4 +1,4 @@
-package com.example.spacextracker;
+package com.example.spacextracker.Controller;
 
 import com.example.spacextracker.Model.Launches;
 
