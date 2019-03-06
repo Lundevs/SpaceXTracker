@@ -27,7 +27,7 @@ public class MainController {
         //Pour ceux qui veulent encore aller plus loin
         //Voir Injection de dépendances
 
-        SpaceXAPIInterface restApi = RetroFit.getInstance();
+        SpaceXAPIInterface restApi = ApiManager.getInstance();
         Call<List<Launches>> call = restApi.getAllLaunches();
         call.enqueue(new Callback<List<Launches>>() {
             @Override

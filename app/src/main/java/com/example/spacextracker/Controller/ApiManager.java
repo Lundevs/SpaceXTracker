@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetroFit {
+public class ApiManager {
     public static final String BASE_URL = "https://api.spacexdata.com/v3/";
 
     public static SpaceXAPIInterface getInstance(){

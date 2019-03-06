@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             int itemPosition = mRecyclerView.getChildLayoutPosition(v);
             Gson gson = new Gson();
             intent.putExtra("flightNumber", itemPosition+1);
-            intent.putExtra("jsonData",gson.toJson(controller.getListLaunches().get(itemPosition)));
+            intent.putExtra("jsonData", gson.toJson(controller.getListLaunches().get(itemPosition)));
             startActivity(intent);
         }
     }

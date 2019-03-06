@@ -34,4 +34,6 @@ public class Launches {
     public String getLaunchDescription(){return details;}
 
     public int getFistStageBlock(){return rocket.getFirst_stage().getCore()[0].getBlock();}
+
+    public String[] getListImage(){return links.getFlickr_images();}
 }

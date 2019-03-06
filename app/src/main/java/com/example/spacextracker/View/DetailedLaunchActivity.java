@@ -3,7 +3,9 @@ package com.example.spacextracker.View;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,11 +15,6 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DetailedLaunchActivity extends AppCompatActivity {
 
@@ -29,8 +26,10 @@ public class DetailedLaunchActivity extends AppCompatActivity {
     private TextView launchSite;
     private TextView launchResult;
     private TextView launchDescription;
-    private TextView firstStageBlock;
-    private TextView firstTageDetails;
+
+    private RecyclerView imgRecyclerView;
+    private RecyclerView.Adapter imgAdapter;
+    private RecyclerView.LayoutManager imgLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +43,25 @@ public class DetailedLaunchActivity extends AppCompatActivity {
         launchSite = findViewById(R.id.launchSite);
         launchResult = findViewById(R.id.launchResult);
         launchDescription = findViewById(R.id.launchDescription);
-        firstStageBlock = findViewById(R.id.firstStageBlock);
-        firstTageDetails = findViewById(R.id.firstStageDetails);
 
         Gson gson = new Gson();
         Intent intent = getIntent();
-        Launches launchData = gson.fromJson(intent.getStringExtra("jsonData"), Launches.class);
+        launchData = gson.fromJson(intent.getStringExtra("jsonData"), Launches.class);
+
+        imgRecyclerView = (RecyclerView)findViewById(R.id.imgRecView);
+        imgRecyclerView.setHasFixedSize(true);
+
+        imgLayoutManager = new GridLayoutManager(this,2);
+        imgRecyclerView.setLayoutManager(imgLayoutManager);
+
+        imgAdapter = new ImgAdapter(launchData.getListImage());
+        imgRecyclerView.setAdapter(imgAdapter);
+
 
         Picasso.get()
                 .load(launchData.getSmallPatchURL())
                 .placeholder(R.drawable.ic_launcher_foreground)
+                .resize(0,256)
                 .into(launchImg);
         launchDate.setText(DateFormat.getDateInstance(DateFormat.FULL).format(launchData.getLaunch_date_utc()));
         missionName.setText(launchData.getMission_name());
@@ -65,6 +73,5 @@ public class DetailedLaunchActivity extends AppCompatActivity {
             launchResult.setText("Launch Failure");
         }
         launchDescription.setText(launchData.getLaunchDescription());
-        firstStageBlock.append(new Integer(launchData.getFistStageBlock()).toString());
     }
 }

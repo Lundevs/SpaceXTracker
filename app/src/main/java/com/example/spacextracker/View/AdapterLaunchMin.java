@@ -67,6 +67,7 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
                 .get()
                 .load(mDataset.get(position).getSmallPatchURL())
                 .placeholder(R.drawable.ic_launcher_foreground)
+                .resize(0,256)
                 .into(holder.missionPatch);
     }
 
