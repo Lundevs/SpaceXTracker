@@ -1,5 +1,6 @@
 package com.example.spacextracker.View;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,9 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
     private MainController controller;
 
+    private static Context appContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appContext = getApplicationContext();
         setContentView(R.layout.activity_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.launchPastRecicleView);
 
@@ -52,5 +56,9 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("jsonData", gson.toJson(controller.getListLaunches().get(itemPosition)));
             startActivity(intent);
         }
+    }
+
+    public static Context getAppContext() {
+        return appContext;
     }
 }
