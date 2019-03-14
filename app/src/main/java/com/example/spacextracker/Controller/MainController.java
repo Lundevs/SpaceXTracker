@@ -3,6 +3,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.spacextracker.View.MainActivity;
 import com.example.spacextracker.Model.Launches;
@@ -33,6 +35,8 @@ public class MainController {
 
     private Gson gson = new Gson();
 
+    private SpaceXAPIInterface restApi = ApiManager.getInstance();
+
     public MainController(MainActivity mainActivity) {
         this.view = mainActivity;
     }
@@ -45,15 +49,24 @@ public class MainController {
         //Pour ceux qui veulent encore aller plus loin
         //Voir Injection de dépendances
 
+        getData(true);
+
+    }
+
+    private void putDataInListCache(){
+        String launchJson = sharedPreferences.getString(launchData,"");
+        Type LaunchListType = new TypeToken<ArrayList<Launches>>(){}.getType();
+        launchList = gson.fromJson(launchJson, LaunchListType);
+        view.showList(launchList);
+    }
+
+    public void getData(Boolean checkCache){
         sharedPreferences = MainActivity.getAppContext().getSharedPreferences(dataCache, MODE_PRIVATE);
 
-        SpaceXAPIInterface restApi = ApiManager.getInstance();
-        if (sharedPreferences.contains(launchData)) {
-            String launchJson = sharedPreferences.getString(launchData,"");
-            Type LaunchListType = new TypeToken<ArrayList<Launches>>(){}.getType();
-            launchList = gson.fromJson(launchJson, LaunchListType);
-            view.showList(launchList);
+        if (sharedPreferences.contains(launchData) && checkCache) {
+            putDataInListCache();
         } else {
+            view.showProgress();
             Call<List<Launches>> call = restApi.getAllLaunches();
             call.enqueue(new Callback<List<Launches>>() {
                 @Override
@@ -67,15 +80,29 @@ public class MainController {
 
                 @Override
                 public void onFailure(Call<List<Launches>> call, Throwable t) {
+                    // toast load error
                     Log.d("ERROR", "Api Error");
+                    if (sharedPreferences.contains(launchData)){
+                        putDataInListCache();
+                    }
                 }
             });
         }
-
     }
 
     public List<Launches> getListLaunches(){
         return launchList;
+    }
+
+    public View.OnClickListener getRefreshButtonListener(){
+        return new RefreshButtonListener();
+    }
+
+    public class RefreshButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            getData(false);
+        }
     }
 
     // ICMP
