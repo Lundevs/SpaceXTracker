@@ -37,6 +37,8 @@ public class DetailedLaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+
         setContentView(R.layout.activity_detailed_launch);
 
         launchImg = findViewById(R.id.launchImg);
@@ -50,7 +52,6 @@ public class DetailedLaunchActivity extends AppCompatActivity {
 
 
         Gson gson = new Gson();
-        Intent intent = getIntent();
         launchData = gson.fromJson(intent.getStringExtra("jsonData"), Launches.class);
 
         if (MainController.isOnline()){
