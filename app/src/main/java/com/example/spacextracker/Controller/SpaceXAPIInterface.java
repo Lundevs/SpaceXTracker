@@ -16,4 +16,12 @@ public interface SpaceXAPIInterface {
     @GET("launches/{launchNumber}")
     Call<Launches> getLaunchByNumber(@Path("launchNumber") int launchNumber);
 
+    @GET("launches/past")
+    Call<List<Launches>> getPastLaunches();
+
+    @GET("launches/upcoming")
+    Call<List<Launches>> getFutureLaunches();
+
+
+
 }

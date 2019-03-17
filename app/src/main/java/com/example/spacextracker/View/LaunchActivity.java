@@ -1,7 +1,5 @@
 package com.example.spacextracker.View;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -20,9 +16,11 @@ import com.example.spacextracker.Model.Launches;
 import com.example.spacextracker.R;
 import com.google.gson.Gson;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class LaunchActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -34,24 +32,36 @@ public class MainActivity extends AppCompatActivity {
 
     private MainController controller;
 
+    private int launchType;
+
     private static Context appContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
         appContext = getApplicationContext();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.past_launch);
+
         refreshButton = (Button) findViewById(R.id.refreshButton);
         mRecyclerView = (RecyclerView) findViewById(R.id.launchPastRecicleView);
         progressBar = findViewById(R.id.progressBar);
 
         controller = new MainController(this);
-        controller.onCreate();
-        refreshButton.setOnClickListener(controller.getRefreshButtonListener());
+        launchType = intent.getIntExtra("launchType",1);
+        if (launchType == 1){
+            refreshButton.setOnClickListener(controller.getRefreshButtonListenerPast());
+        }else {
+            refreshButton.setOnClickListener(controller.getRefreshButtonListenerFuture());
+        }
+        controller.getData(true,launchType);
         failAPIToast = Toast.makeText(getApplicationContext(),"Failed to load API",Toast.LENGTH_SHORT);
     }
 
-    public void showList(List<Launches> launchList) {
+    public void showList(List<Launches> launchList, Boolean reverse) {
+        if (reverse){
+            Collections.reverse(launchList);
+        }
         mRecyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         mRecyclerView.setHasFixedSize(true);
@@ -59,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new AdapterLaunchMin(launchList, new ListenerLaunchesList());
+        mAdapter = new AdapterLaunchMin(launchList, new ListenerLaunchesList(), launchType);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -72,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(MainActivity.this, DetailedLaunchActivity.class);
+            Intent intent = new Intent(LaunchActivity.this, DetailedLaunchActivity.class);
             int itemPosition = mRecyclerView.getChildLayoutPosition(v);
             Gson gson = new Gson();
             intent.putExtra("flightNumber", itemPosition+1);

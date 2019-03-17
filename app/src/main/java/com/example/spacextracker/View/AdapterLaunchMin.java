@@ -19,6 +19,7 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
 
     private List<Launches> mDataset;
     private final View.OnClickListener listener;
+    private final int typeLaunch;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -39,9 +40,10 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterLaunchMin(List<Launches> myDataset, View.OnClickListener listener) {
+    public AdapterLaunchMin(List<Launches> myDataset, View.OnClickListener listener, int typeLaunch) {
         this.mDataset = myDataset;
         this.listener = listener;
+        this.typeLaunch = typeLaunch;
     }
 
     // Create new views (invoked by the layout manager)
@@ -63,12 +65,14 @@ public class AdapterLaunchMin extends RecyclerView.Adapter<AdapterLaunchMin.MyVi
         holder.rocketName.setText(mDataset.get(position).getRocket_name());
         holder.missionName.setText(mDataset.get(position).getMission_name());
 
-        Picasso
-                .get()
-                .load(mDataset.get(position).getSmallPatchURL())
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .resize(0,256)
-                .into(holder.missionPatch);
+        if (typeLaunch == 1){
+            Picasso
+                    .get()
+                    .load(mDataset.get(position).getSmallPatchURL())
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .resize(0,256)
+                    .into(holder.missionPatch);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

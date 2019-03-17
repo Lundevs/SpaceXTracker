@@ -4,16 +4,13 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.example.spacextracker.View.MainActivity;
+import com.example.spacextracker.View.LaunchActivity;
 import com.example.spacextracker.Model.Launches;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,21 +21,21 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 public class MainController {
-    private MainActivity view;
+    private LaunchActivity view;
 
     private List<Launches> launchList;
 
     private Context context;
     private SharedPreferences sharedPreferences;
     private String dataCache = "dataCache";
-    private String launchData = "launchData";
+    private String launchData;
 
     private Gson gson = new Gson();
 
     private SpaceXAPIInterface restApi = ApiManager.getInstance();
 
-    public MainController(MainActivity mainActivity) {
-        this.view = mainActivity;
+    public MainController(LaunchActivity launchActivity) {
+        this.view = launchActivity;
     }
 
     public void onCreate() {
@@ -49,30 +46,42 @@ public class MainController {
         //Pour ceux qui veulent encore aller plus loin
         //Voir Injection de dépendances
 
-        getData(true);
-
     }
 
-    private void putDataInListCache(){
+    private void putDataInListCache(int launchType){
+        if (launchType == 1){
+            launchData = "launchDataPast";
+        }else {
+            launchData = "launchDataFuture";
+        }
         String launchJson = sharedPreferences.getString(launchData,"");
-        Type LaunchListType = new TypeToken<ArrayList<Launches>>(){}.getType();
-        launchList = gson.fromJson(launchJson, LaunchListType);
-        view.showList(launchList);
+        Type launchListType = new TypeToken<ArrayList<Launches>>(){}.getType();
+        launchList = gson.fromJson(launchJson, launchListType);
+        view.showList(launchList, launchType == 1);
     }
 
-    public void getData(Boolean checkCache){
-        sharedPreferences = MainActivity.getAppContext().getSharedPreferences(dataCache, MODE_PRIVATE);
-
+    public void getData(Boolean checkCache, final int launchType){
+        if (launchType == 1){
+            launchData = "launchDataPast";
+        }else {
+            launchData = "launchDataFuture";
+        }
+        sharedPreferences = LaunchActivity.getAppContext().getSharedPreferences(dataCache, MODE_PRIVATE);
+        Call<List<Launches>> call;
         if (sharedPreferences.contains(launchData) && checkCache) {
-            putDataInListCache();
+            putDataInListCache(launchType);
         } else {
             view.showProgress();
-            Call<List<Launches>> call = restApi.getAllLaunches();
+            if (launchType == 1){
+                call = restApi.getPastLaunches();
+            }else {
+                call = restApi.getFutureLaunches();
+            }
             call.enqueue(new Callback<List<Launches>>() {
                 @Override
                 public void onResponse(Call<List<Launches>> call, Response<List<Launches>> response) {
                     launchList = response.body();
-                    view.showList(launchList);
+                    view.showList(launchList, launchType == 1);
                     sharedPreferences.edit()
                             .putString(launchData,gson.toJson(launchList))
                             .apply();
@@ -83,7 +92,7 @@ public class MainController {
                     // toast load error
                     Log.d("ERROR", "Api Error");
                     if (sharedPreferences.contains(launchData)){
-                        putDataInListCache();
+                        putDataInListCache(launchType);
                     }
                 }
             });
@@ -94,20 +103,31 @@ public class MainController {
         return launchList;
     }
 
-    public View.OnClickListener getRefreshButtonListener(){
-        return new RefreshButtonListener();
+    public View.OnClickListener getRefreshButtonListenerPast(){
+        return new RefreshButtonListenerPast();
     }
 
-    public class RefreshButtonListener implements View.OnClickListener {
+    public class RefreshButtonListenerPast implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            getData(false);
+            getData(false,1);
+        }
+    }
+
+    public View.OnClickListener getRefreshButtonListenerFuture(){
+        return new RefreshButtonListenerFuture();
+    }
+
+    public class RefreshButtonListenerFuture implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            getData(false,2);
         }
     }
 
     // ICMP
     public static boolean isOnline() {
-        final ConnectivityManager connectivityManager = ((ConnectivityManager) MainActivity.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) LaunchActivity.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 }
