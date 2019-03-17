@@ -57,7 +57,7 @@ public class MainController {
         String launchJson = sharedPreferences.getString(launchData,"");
         Type launchListType = new TypeToken<ArrayList<Launches>>(){}.getType();
         launchList = gson.fromJson(launchJson, launchListType);
-        view.showList(launchList);
+        view.showList(launchList, launchType == 1);
     }
 
     public void getData(Boolean checkCache, final int launchType){
@@ -81,7 +81,7 @@ public class MainController {
                 @Override
                 public void onResponse(Call<List<Launches>> call, Response<List<Launches>> response) {
                     launchList = response.body();
-                    view.showList(launchList);
+                    view.showList(launchList, launchType == 1);
                     sharedPreferences.edit()
                             .putString(launchData,gson.toJson(launchList))
                             .apply();

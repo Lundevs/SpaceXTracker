@@ -16,6 +16,8 @@ import com.example.spacextracker.Model.Launches;
 import com.example.spacextracker.R;
 import com.google.gson.Gson;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class LaunchActivity extends AppCompatActivity {
@@ -56,7 +58,10 @@ public class LaunchActivity extends AppCompatActivity {
         failAPIToast = Toast.makeText(getApplicationContext(),"Failed to load API",Toast.LENGTH_SHORT);
     }
 
-    public void showList(List<Launches> launchList) {
+    public void showList(List<Launches> launchList, Boolean reverse) {
+        if (reverse){
+            Collections.reverse(launchList);
+        }
         mRecyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
         mRecyclerView.setHasFixedSize(true);
