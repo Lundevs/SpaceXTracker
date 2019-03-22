@@ -12,6 +12,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,7 +22,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class MainController {
+public class LaunchController {
     private LaunchActivity view;
 
     private List<Launches> launchList;
@@ -34,29 +36,22 @@ public class MainController {
 
     private SpaceXAPIInterface restApi = ApiManager.getInstance();
 
-    public MainController(LaunchActivity launchActivity) {
+    public LaunchController(LaunchActivity launchActivity) {
         this.view = launchActivity;
     }
 
-    public void onCreate() {
-
-        //Pour ceux qui veulent aller plus loin
-        //Il faut créer ces objets avec des singletons.
-        // Voir le cours de Génie Logiciel -> Singleton
-        //Pour ceux qui veulent encore aller plus loin
-        //Voir Injection de dépendances
-
-    }
-
     private void putDataInListCache(int launchType){
+        Boolean reverse = false;
         if (launchType == 1){
             launchData = "launchDataPast";
+            reverse = true;
         }else {
             launchData = "launchDataFuture";
         }
         String launchJson = sharedPreferences.getString(launchData,"");
         Type launchListType = new TypeToken<ArrayList<Launches>>(){}.getType();
         launchList = gson.fromJson(launchJson, launchListType);
+        if (reverse) Collections.reverse(launchList);
         view.showList(launchList, launchType == 1);
     }
 
@@ -125,7 +120,7 @@ public class MainController {
         }
     }
 
-    // ICMP
+    // Check connection
     public static boolean isOnline() {
         final ConnectivityManager connectivityManager = ((ConnectivityManager) LaunchActivity.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
