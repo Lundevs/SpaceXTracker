@@ -1,23 +1,21 @@
 package com.example.spacextracker.View;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.spacextracker.Controller.MainController;
+import com.example.spacextracker.Controller.LaunchController;
 import com.example.spacextracker.Model.Launches;
 import com.example.spacextracker.R;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.util.ResourceBundle;
 
 public class DetailedLaunchActivity extends AppCompatActivity {
 
@@ -54,7 +52,7 @@ public class DetailedLaunchActivity extends AppCompatActivity {
         Gson gson = new Gson();
         launchData = gson.fromJson(intent.getStringExtra("jsonData"), Launches.class);
 
-        if (MainController.isOnline()){
+        if (LaunchController.isOnline()){
             showImgList();
         }else {
             imgRecyclerView.setVisibility(View.GONE);
