@@ -48,7 +48,7 @@ public class StatsController {
     }
 
     public void getData(Boolean checkCache){
-        sharedPreferences = LaunchActivity.getAppContext().getSharedPreferences(dataCache, MODE_PRIVATE);
+        sharedPreferences = StatsActivity.getAppContext().getSharedPreferences(dataCache, MODE_PRIVATE);
         Call<List<Launches>> call;
         if (sharedPreferences.contains(launchData) && checkCache) {
             putDataCache();

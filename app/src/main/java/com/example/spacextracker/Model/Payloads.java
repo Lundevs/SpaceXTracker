@@ -1,6 +1,6 @@
 package com.example.spacextracker.Model;
 
-class Payloads {
+public class Payloads {
     private String payload_id;
     private String nationality;
     private String payload_type;

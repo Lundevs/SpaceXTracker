@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -73,6 +77,11 @@ public class DetailedLaunchActivity extends AppCompatActivity {
             launchResult.setText("Launch Failure");
         }
         launchDescription.setText(launchData.getLaunchDescription());
+
+        getWindow().setExitTransition(new Slide(Gravity.LEFT));
+        getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+        getWindow().setAllowEnterTransitionOverlap(false);
+        getWindow().setAllowReturnTransitionOverlap(false);
     }
 
     private void showImgList(){

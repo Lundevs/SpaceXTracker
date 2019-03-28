@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".View.StatsActivity">
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/TypeLaunchChart"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"></com.github.mikephil.charting.charts.PieChart>
 </androidx.constraintlayout.widget.ConstraintLayout>

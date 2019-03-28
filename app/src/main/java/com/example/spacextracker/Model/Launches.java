@@ -36,4 +36,9 @@ public class Launches {
     public int getFistStageBlock(){return rocket.getFirst_stage().getCore()[0].getBlock();}
 
     public String[] getListImage(){return links.getFlickr_images();}
+
+
+    public Payloads[] getPayloads(){
+        return rocket.getSecond_stage().getPayloads();
+    }
 }
