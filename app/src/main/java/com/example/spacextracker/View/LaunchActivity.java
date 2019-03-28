@@ -1,11 +1,15 @@
 package com.example.spacextracker.View;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,6 +66,11 @@ public class LaunchActivity extends AppCompatActivity {
         }
         controller.getData(true,launchType);
         failAPIToast = Toast.makeText(getApplicationContext(),"Failed to load API",Toast.LENGTH_SHORT);
+
+        getWindow().setExitTransition(new Slide(Gravity.LEFT));
+        getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+        getWindow().setAllowEnterTransitionOverlap(false);
+        getWindow().setAllowReturnTransitionOverlap(false);
     }
 
     public void showList(List<Launches> launchList, Boolean reverse) {
@@ -93,7 +102,8 @@ public class LaunchActivity extends AppCompatActivity {
             Gson gson = new Gson();
             intent.putExtra("flightNumber", itemPosition+1);
             intent.putExtra("jsonData", gson.toJson(controller.getListLaunches().get(itemPosition)));
-            startActivity(intent);
+            startActivity(intent,
+                    ActivityOptions.makeSceneTransitionAnimation(LaunchActivity.this).toBundle());
         }
     }
 

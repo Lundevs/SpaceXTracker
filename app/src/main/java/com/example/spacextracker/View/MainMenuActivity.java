@@ -1,8 +1,12 @@
 package com.example.spacextracker.View;
 
+import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,11 +27,13 @@ public class MainMenuActivity extends AppCompatActivity {
 
         pastLaunchButton = findViewById(R.id.buttonPastLaunch);
         futureLaunchButton = findViewById(R.id.buttonFutureLaunch);
-        statsButton = findViewById(R.id.buttonStats);
         pastLaunchButton.setOnClickListener(new ListenerPastLaunch());
         futureLaunchButton.setOnClickListener(new ListenerFutureLaunch());
-        statsButton.setOnClickListener(new ListenerStats());
 
+        getWindow().setExitTransition(new Slide(Gravity.LEFT));
+        getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+        getWindow().setAllowEnterTransitionOverlap(false);
+        getWindow().setAllowReturnTransitionOverlap(false);
     }
 
     public class ListenerPastLaunch implements View.OnClickListener {
@@ -36,7 +42,8 @@ public class MainMenuActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent = new Intent(MainMenuActivity.this, LaunchActivity.class);
             intent.putExtra("launchType", 1);
-            startActivity(intent);
+            startActivity(intent,
+                    ActivityOptions.makeSceneTransitionAnimation(MainMenuActivity.this).toBundle());
         }
     }
 
@@ -46,16 +53,8 @@ public class MainMenuActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent = new Intent(MainMenuActivity.this, LaunchActivity.class);
             intent.putExtra("launchType", 2);
-            startActivity(intent);
-        }
-    }
-
-    public class ListenerStats implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(MainMenuActivity.this, LaunchActivity.class); // to modify => new activity
-            startActivity(intent);
+            startActivity(intent,
+                    ActivityOptions.makeSceneTransitionAnimation(MainMenuActivity.this).toBundle());
         }
     }
 }
