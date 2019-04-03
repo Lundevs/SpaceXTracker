@@ -1,4 +1,4 @@
-# RestAPI_RATP
+# SpaceX API REST
 ## Application to 3A Project (Projet individuel)
 
 Louis Traon 3A33
@@ -6,7 +6,7 @@ Louis Traon 3A33
 ## Présentation
 
 Le projet avait comme objectif la réalisation d'une application android utilisant une API rest.
-J'ai utilisé l'api REST de saceX permetant de lister les lancements staceX efféctué et à venir.
+J'ai utilisé l'api REST de saceX permetant de lister les lancements spaceX efféctué et à venir.
 
 ## Prérequis
 
